@@ -215,8 +215,8 @@ export const OrderConfirmationView = ({
                 Tempo estimado para retirada
               </div>
               {fastPass && (
-                <div className="text-xs text-muted-foreground mt-1">
-                  Fastp ass ativo
+                <div className="text-xs text-primary underline mt-1">
+                  FastPass ativado
                 </div>
               )}
             </div>

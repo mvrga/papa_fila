@@ -348,8 +348,10 @@ export const CartDetailView = ({
                       <Select
                         value={scheduledTime}
                         onValueChange={(value) => {
-                          setScheduledTime(value);
-                          if (value) {
+                          if (value === "clear") {
+                            setScheduledTime("");
+                          } else {
+                            setScheduledTime(value);
                             setFastPass(false);
                           }
                         }}
@@ -358,6 +360,7 @@ export const CartDetailView = ({
                           <SelectValue placeholder="Selecione o horário" />
                         </SelectTrigger>
                         <SelectContent>
+                          <SelectItem value="clear">Desmarcar</SelectItem>
                           <SelectItem value="11:00">11:00</SelectItem>
                           <SelectItem value="11:30">11:30</SelectItem>
                           <SelectItem value="12:00">12:00</SelectItem>
