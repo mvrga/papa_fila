@@ -10,9 +10,9 @@ export const getGerenciador = async (restauranteId: string) => {
       const restaurante = await prisma.restaurante.findUnique({
         where: { id: restauranteId },
         select: { 
-          tempoMedioPreparo: true,
-          estacoesPreparo: true,
-          capacidade: true 
+          capacidade: 10,
+          tempoMedioPreparo: 10,
+          estacoesPreparo: 10
         }
       });
 
@@ -20,8 +20,8 @@ export const getGerenciador = async (restauranteId: string) => {
 
       gerenciadores.set(restauranteId, new GerenciadorRestaurante({
         id: restauranteId,
-        tempoMedioPreparo: restaurante.tempoMedioPreparo || 15,
-        estacoesPreparo: restaurante.estacoesPreparo || 2,
+        tempoMedioPreparo: restaurante.tempoMedioPreparo,
+        estacoesPreparo: restaurante.estacoesPreparo,
         capacidade: restaurante.capacidade || 50
       }));
     }

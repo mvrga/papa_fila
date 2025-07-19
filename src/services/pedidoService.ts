@@ -1,4 +1,6 @@
-import { prisma } from '@/lib/db';
+import { prisma } from '../../prisma/client';
+import { NextApiRequest, NextApiResponse } from 'next';
+import { GerenciadorRestaurante } from '@/lib/GerenciadorRestaurante';
 import { getGerenciador } from './restauranteService';
 import { supabase } from '@/lib/supabase';
 
@@ -26,7 +28,7 @@ export const criarPedido = async ({
   const gerenciador = await getGerenciador(restauranteId);
   
   if (isFastPass) {
-    const fastPassDisponiveis = gerenciador.calcularFastPass(false);
+    const fastPassDisponiveis = gerenciador.calcularFastPassDisponiveis(false);
     if (fastPassDisponiveis <= 0) {
       throw new Error('FastPass indisponíveis no momento');
     }

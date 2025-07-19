@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider   = "postgresql"
-  url        = env("DATABASE_URL")
-  extensions = [pg_crypto, uuid_ossp]
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Usuario {
@@ -30,9 +29,9 @@ model Restaurante {
   id                String             @id @default(uuid())
   nome              String
   descricao         String?
-  capacidade        Int                @default(50)
-  estacoesPreparo   Int                @default(2) @map("estacoes_preparo")
-  tempoMedioPreparo Int                @default(15) @map("tempo_medio_preparo")
+  capacidade        Int                @default(50) // Changed to Int
+  estacoesPreparo   Int                @default(2) @map("estacoes_preparo") // Changed to Int
+  tempoMedioPreparo Int                @default(15) @map("tempo_medio_preparo") // Changed to Int
   categorias        String[]
   fila              Fila?
   reservas          Reserva[]
