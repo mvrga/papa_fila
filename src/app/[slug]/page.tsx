@@ -23,6 +23,7 @@ export default function RestaurantPage({ params }: RestaurantPageProps) {
   const resolvedParams = use(params);
   const [palavraChave, setPalavraChave] = useState<string | null>(null);
   const [ordenacao, setOrdenacao] = useState<Options | null>(null);
+  const [activeTab, setActiveTab] = useState<"comida" | "bebida">("comida");
 
   const ordenacaoOptions: Options[] = [
     { value: "prep-asc", label: "Menor tempo de preparo" },
@@ -93,7 +94,34 @@ export default function RestaurantPage({ params }: RestaurantPageProps) {
         </div>
       </section>
 
-      <section className="container mx-auto w-full px-4 mb-8 mt-20">
+      <section className="w-full border-b">
+        <div className="w-full flex justify-center">
+          <div className="flex">
+            <button
+              onClick={() => setActiveTab("comida")}
+              className={`px-6 py-3 text-sm font-medium transition-colors hover:bg-primary/10 ${
+                activeTab === "comida"
+                  ? "text-primary border-b-2 border-primary"
+                  : "text-gray-600"
+              }`}
+            >
+              Comida
+            </button>
+            <button
+              onClick={() => setActiveTab("bebida")}
+              className={`px-6 py-3 text-sm font-medium transition-colors hover:bg-primary/10 ${
+                activeTab === "bebida"
+                  ? "text-primary border-b-2 border-primary"
+                  : "text-gray-600"
+              }`}
+            >
+              Bebida
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto w-full px-4 mb-8 mt-8">
         <RestaurantDiscountView />
       </section>
 
@@ -123,6 +151,7 @@ export default function RestaurantPage({ params }: RestaurantPageProps) {
           restaurantSlug={resolvedParams.slug}
           searchTerm={palavraChave}
           sortBy={ordenacao?.value}
+          filterType={activeTab}
         />
       </section>
 

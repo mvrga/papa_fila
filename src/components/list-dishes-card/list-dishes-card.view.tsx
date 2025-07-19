@@ -8,12 +8,14 @@ interface ListDishesCardProps {
   restaurantSlug: string;
   searchTerm?: string | null;
   sortBy?: string | null;
+  filterType?: "comida" | "bebida" | null;
 }
 
 const ListDishesCardView: React.FC<ListDishesCardProps> = ({
   restaurantSlug,
   searchTerm,
   sortBy,
+  filterType,
 }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
@@ -31,7 +33,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'pizza-margherita',
       prepTime: 25,
       rating: 4.8,
-      category: 'Pizza',
+      category: "Pizza",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -45,7 +48,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'hamburguer-artesanal',
       prepTime: 20,
       rating: 4.6,
-      category: 'Hambúrguer',
+      category: "Hambúrguer",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -59,7 +63,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'risotto-camarao',
       prepTime: 35,
       rating: 4.9,
-      category: 'Pratos Principais',
+      category: "Pratos Principais",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -73,7 +78,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'salmao-grelhado',
       prepTime: 30,
       rating: 4.7,
-      category: 'Peixes',
+      category: "Peixes",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -87,7 +93,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'tacos-mexicanos',
       prepTime: 15,
       rating: 4.5,
-      category: 'Mexicano',
+      category: "Mexicano",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -101,7 +108,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'tiramisu',
       prepTime: 10,
       rating: 4.8,
-      category: 'Sobremesas',
+      category: "Sobremesas",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -115,7 +123,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'lasanha-bolognesa',
       prepTime: 40,
       rating: 4.7,
-      category: 'Massas',
+      category: "Massas",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -129,7 +138,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'frango-parmegiana',
       prepTime: 30,
       rating: 4.6,
-      category: 'Pratos Principais',
+      category: "Pratos Principais",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -143,7 +153,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'ceviche-peixe',
       prepTime: 20,
       rating: 4.8,
-      category: 'Peixes',
+      category: "Peixes",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -157,7 +168,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'pad-thai',
       prepTime: 25,
       rating: 4.5,
-      category: 'Asiático',
+      category: "Asiático",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -170,7 +182,8 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'cheesecake-frutas-vermelhas',
       prepTime: 10,
       rating: 4.9,
-      category: 'Sobremesas',
+      category: "Sobremesas",
+      type: "comida" as const,
       restaurantSlug,
     },
     {
@@ -184,7 +197,112 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
       slug: 'burrito-mexicano',
       prepTime: 20,
       rating: 4.4,
-      category: 'Mexicano',
+      category: "Mexicano",
+      type: "comida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 13,
+      name: "Coca-Cola 350ml",
+      description: "Refrigerante tradicional Coca-Cola gelado",
+      price: 6.50,
+      image: "https://images.unsplash.com/photo-1581636625402-29b2a704ef13?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "coca-cola-350ml",
+      prepTime: 2,
+      rating: 4.3,
+      category: "Refrigerantes",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 14,
+      name: "Suco de Laranja Natural",
+      description: "Suco de laranja 100% natural, sem açúcar adicionado",
+      price: 8.90,
+      image: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "suco-laranja-natural",
+      prepTime: 3,
+      rating: 4.7,
+      category: "Sucos Naturais",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 15,
+      name: "Água com Gás 500ml",
+      description: "Água mineral com gás, levemente gelada",
+      price: 4.50,
+      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "agua-com-gas-500ml",
+      prepTime: 1,
+      rating: 4.1,
+      category: "Águas",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 16,
+      name: "Cerveja Artesanal IPA",
+      description: "Cerveja artesanal Indian Pale Ale com notas cítricas",
+      price: 14.90,
+      image: "https://images.unsplash.com/photo-1618885472179-5e474019f2a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "cerveja-artesanal-ipa",
+      prepTime: 2,
+      rating: 4.8,
+      category: "Cervejas",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 17,
+      name: "Smoothie de Frutas Vermelhas",
+      description: "Smoothie cremoso com morango, framboesa e banana",
+      price: 12.50,
+      image: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "smoothie-frutas-vermelhas",
+      prepTime: 5,
+      rating: 4.6,
+      category: "Smoothies",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 18,
+      name: "Vinho Tinto Cabernet",
+      description: "Vinho tinto seco, encorpado com notas de frutas escuras",
+      price: 28.00,
+      image: "https://images.unsplash.com/photo-1553361371-9b22f78e8b1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "vinho-tinto-cabernet",
+      prepTime: 2,
+      rating: 4.7,
+      category: "Vinhos",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 19,
+      name: "Cappuccino Gelado",
+      description: "Café espresso com leite vaporizado e espuma gelado",
+      price: 9.90,
+      image: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "cappuccino-gelado",
+      prepTime: 4,
+      rating: 4.5,
+      category: "Cafés",
+      type: "bebida" as const,
+      restaurantSlug,
+    },
+    {
+      id: 20,
+      name: "Chá Gelado de Pêssego",
+      description: "Chá preto gelado com sabor natural de pêssego",
+      price: 7.50,
+      image: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      slug: "cha-gelado-pessego",
+      prepTime: 3,
+      rating: 4.4,
+      category: "Chás",
+      type: "bebida" as const,
       restaurantSlug,
     },
   ];
@@ -193,13 +311,17 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
   const processedDishes = useMemo(() => {
     let filtered = mockDishes;
 
+    // Filtrar por tipo (comida/bebida)
+    if (filterType) {
+      filtered = filtered.filter(dish => dish.type === filterType);
+    }
+
     // Filtrar por termo de busca
     if (searchTerm) {
-      filtered = mockDishes.filter(
-        (dish) =>
-          dish.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          dish.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          dish.category.toLowerCase().includes(searchTerm.toLowerCase())
+      filtered = filtered.filter(dish =>
+        dish.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        dish.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        dish.category.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
@@ -222,12 +344,12 @@ const ListDishesCardView: React.FC<ListDishesCardProps> = ({
     }
 
     return filtered;
-  }, [searchTerm, sortBy]);
+  }, [searchTerm, sortBy, filterType]);
 
   // Resetar página quando filtros mudarem
   React.useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm, sortBy]);
+  }, [searchTerm, sortBy, filterType]);
 
   // Cálculos de paginação
   const totalItems = processedDishes.length;
