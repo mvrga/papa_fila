@@ -1,15 +1,98 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  extensions = [pg_crypto, uuid_ossp]
+}
+
+model Usuario {
+  id           String             @id @default(uuid())
+  nome         String
+  email        String             @unique
+  telefone     String?            @db.VarChar(20)
+  createdAt    DateTime           @default(now()) @map("created_at")
+  reservas     Reserva[]
+  historico    HistoricoUsuario[]
+  pedidos      Pedido[]
+
+  @@map("usuarios")
+  @@index([email])
+}
+
+model Restaurante {
+  id               String             @id @default(uuid())
+  nome             String
+  capacidade       Int                @default(50)
+  tempoMedioEspera Int                @default(0) @map("tempo_medio_espera")
+  categorias       String[]           @db.VarChar(50)[]
+  fila             Fila?
+  reservas         Reserva[]
+  pedidos          Pedido[]
+  historicoUsuarios HistoricoUsuario[]
+  createdAt        DateTime           @default(now()) @map("created_at")
+
+  @@map("restaurantes")
+  @@index([nome])
+}
+
+model Fila {
+  id             String     @id @default(uuid())
+  restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
+  restauranteId  String     @unique
+  tamanho        Int        @default(0)
+  tempoEstimado  Int        @default(0) @map("tempo_estimado")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
+
+  @@map("filas")
+}
+
+model Reserva {
+  id             String     @id @default(uuid())
+  usuario        Usuario    @relation(fields: [usuarioId], references: [id])
+  usuarioId      String
+  restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
+  restauranteId  String
+  horario        DateTime
+  status         String     @default("pendente")
+  createdAt      DateTime   @default(now()) @map("created_at")
+
+  @@map("reservas")
+  @@index([restauranteId, status])
+  @@index([usuarioId])
+}
+
+model HistoricoUsuario {
+  id             String     @id @default(uuid())
+  usuario        Usuario    @relation(fields: [usuarioId], references: [id])
+  usuarioId      String
+  restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
+  restauranteId  String
+  visitas        Int        @default(1)
+  ultimaVisita   DateTime   @default(now()) @map("ultima_visita")
+
+  @@map("historico_usuarios")
+  @@unique([usuarioId, restauranteId])
+}
+
+model Pedido {
+  id             String    @id @default(uuid())
+  cliente        Usuario   @relation(fields: [clienteId], references: [id])
+  clienteId      String
+  restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
+  restauranteId  String
+  itens          Json
+  valorTotal     Float     @default(0.0) @map("valor_total")
+  status         String    @default("pendente")
+  isPriority     Boolean   @default(false) @map("is_priority")
+  prioridade     Int?
+  createdAt      DateTime  @default(now()) @map("created_at")
+
+  @@map("pedidos")
+  @@index([restauranteId, status])
+  @@index([isPriority, prioridade])
+  @@index([clienteId])
 }
