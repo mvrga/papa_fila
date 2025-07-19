@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   FilterKeywordView,
@@ -6,12 +6,12 @@ import {
   Options,
   ListDishesCardView,
   RestaurantDiscountView,
-} from "@/components";
-import BaseFooter from "@/components/base-footer";
-import { HeaderView } from "@/components/header/header.view";
-import { useState } from "react";
-import { use } from "react";
-import { Star, MapPin } from "lucide-react";
+} from '@/components';
+import BaseFooter from '@/components/base-footer';
+import { HeaderView } from '@/components/header/header.view';
+import { useState } from 'react';
+import { use } from 'react';
+import { Star, MapPin } from 'lucide-react';
 
 interface RestaurantPageProps {
   params: Promise<{
@@ -23,22 +23,22 @@ export default function RestaurantPage({ params }: RestaurantPageProps) {
   const resolvedParams = use(params);
   const [palavraChave, setPalavraChave] = useState<string | null>(null);
   const [ordenacao, setOrdenacao] = useState<Options | null>(null);
-  const [activeTab, setActiveTab] = useState<"comida" | "bebida">("comida");
+  const [activeTab, setActiveTab] = useState<'comida' | 'bebida'>('comida');
 
   const ordenacaoOptions: Options[] = [
-    { value: "prep-asc", label: "Menor tempo de preparo" },
-    { value: "prep-desc", label: "Maior tempo de preparo" },
-    { value: "price", label: "Preço" },
-    { value: "rating", label: "Avaliação" },
-    { value: "most-orders", label: "Mais pedidos" },
+    { value: 'prep-asc', label: 'Menor tempo de preparo' },
+    { value: 'prep-desc', label: 'Maior tempo de preparo' },
+    { value: 'price', label: 'Preço' },
+    { value: 'rating', label: 'Avaliação' },
+    { value: 'most-orders', label: 'Mais pedidos' },
   ];
 
   const restaurantName = resolvedParams.slug
-    .replace(/-/g, " ")
+    .replace(/-/g, ' ')
     .replace(/\b\w/g, (l) => l.toUpperCase());
   const rating = 4.5;
   const totalReviews = 142;
-  const location = "Rua das Flores, 123 - Centro, São Paulo - SP";
+  const location = 'Rua das Flores, 123 - Centro, São Paulo - SP';
 
   const renderStars = (rating: number) => {
     const fullStars = Math.floor(rating);
@@ -98,22 +98,22 @@ export default function RestaurantPage({ params }: RestaurantPageProps) {
         <div className="w-full flex justify-center">
           <div className="flex">
             <button
-              onClick={() => setActiveTab("comida")}
+              onClick={() => setActiveTab('comida')}
               className={`px-6 py-3 text-sm font-medium transition-colors hover:bg-primary/10 ${
-                activeTab === "comida"
-                  ? "text-primary border-b-2 border-primary"
-                  : "text-gray-600"
+                activeTab === 'comida'
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-gray-600'
               }`}
             >
               Comida
             </button>
-            r
+
             <button
-              onClick={() => setActiveTab("bebida")}
+              onClick={() => setActiveTab('bebida')}
               className={`px-6 py-3 text-sm font-medium transition-colors hover:bg-primary/10 ${
-                activeTab === "bebida"
-                  ? "text-primary border-b-2 border-primary"
-                  : "text-gray-600"
+                activeTab === 'bebida'
+                  ? 'text-primary border-b-2 border-primary'
+                  : 'text-gray-600'
               }`}
             >
               Bebida
