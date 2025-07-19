@@ -1,1 +1,1 @@
-export type CommandStatus = 'pending' | 'preparing' | 'ready';
+export type CommandStatus = 'pending' | 'processing' | 'delivered';

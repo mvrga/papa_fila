@@ -1,12 +1,6 @@
-
-
 export const navlinksAdm = [
   {
-    label: "Pedidos",
-    href: "/dashboard/orders",
+    label: 'Meus produtos',
+    href: '/dashboard/products',
   },
-  {
-    label: "Meus produtos",
-    href: "/dashboard/products",
-  },
-]
+];
