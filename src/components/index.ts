@@ -6,3 +6,6 @@ export * from "./card-restaurant";
 export * from "./base-pagination";
 export * from "./list-restaurants-card";
 export * from "./home-testimonials-section";
+export * from "./card-dish";
+export * from "./list-dishes-card";
+export * from "./restaurant-discount";
