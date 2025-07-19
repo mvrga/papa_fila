@@ -1,11 +1,11 @@
-import { PrismaClient, Prisma } from '@prisma/client';
+import { PrismaClient, Pedido } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
 export const processarFila = async (restauranteId: string) => {
   try {
     // 1. Fetch pending orders with priority sorting
-    const pedidos: Prisma.Pedido[] = await prisma.pedido.findMany({
+    const pedidos: Pedido[] = await prisma.pedido.findMany({
       where: { 
         restauranteId,
         status: "pendente"
@@ -23,12 +23,12 @@ export const processarFila = async (restauranteId: string) => {
       await prisma.pedido.updateMany({
         where: { 
           id: { 
-            in: pedidos.slice(0, 3).map((p) => p.id) 
+            in: pedidos.slice(0, 3).map((p: Pedido) => p.id) // Explicitly type 'p' as 'Pedido'
           }
         },
         data: { 
           status: "preparando",
-          updatedAt: new Date() 
+          updatedAt: new Date() // Explicitly set 'updatedAt'
         }
       });
     }

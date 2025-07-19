@@ -1,5 +1,7 @@
+// prisma/schema.prisma
 generator client {
   provider        = "prisma-client-js"
+  output         = "./src/prisma/client"
   previewFeatures = ["postgresqlExtensions"]
 }
 
@@ -15,6 +17,7 @@ model Usuario {
   email        String             @unique
   telefone     String?            @db.VarChar(20)
   createdAt    DateTime           @default(now()) @map("created_at")
+  updatedAt    DateTime           @updatedAt @map("updated_at")
   reservas     Reserva[]
   historico    HistoricoUsuario[]
   pedidos      Pedido[]
@@ -26,17 +29,21 @@ model Usuario {
 model Restaurante {
   id               String             @id @default(uuid())
   nome             String
+  descricao        String?
   capacidade       Int                @default(50)
-  tempoMedioEspera Int                @default(0) @map("tempo_medio_espera")
-  categorias       String[]           @db.VarChar(50)[]
+  estacoesPreparo  Int                @default(2) @map("estacoes_preparo")
+  tempoMedioPreparo Int               @default(15) @map("tempo_medio_preparo")
+  categorias       String[]
   fila             Fila?
   reservas         Reserva[]
   pedidos          Pedido[]
   historicoUsuarios HistoricoUsuario[]
   createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
 
   @@map("restaurantes")
   @@index([nome])
+  @@index([categorias]) // Índice para arrays
 }
 
 model Fila {
@@ -48,6 +55,7 @@ model Fila {
   updatedAt      DateTime   @updatedAt @map("updated_at")
 
   @@map("filas")
+  @@index([restauranteId, updatedAt])
 }
 
 model Reserva {
@@ -57,12 +65,15 @@ model Reserva {
   restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
   restauranteId  String
   horario        DateTime
-  status         String     @default("pendente")
+  status         String     @default("pendente") @db.VarChar(20)
+  isPriority     Boolean    @default(false) @map("is_priority")
   createdAt      DateTime   @default(now()) @map("created_at")
+  updatedAt      DateTime   @updatedAt @map("updated_at")
 
   @@map("reservas")
-  @@index([restauranteId, status])
-  @@index([usuarioId])
+  @@index([restauranteId, status, horario])
+  @@index([usuarioId, horario])
+  @@unique([usuarioId, restauranteId, horario])
 }
 
 model HistoricoUsuario {
@@ -72,10 +83,12 @@ model HistoricoUsuario {
   restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
   restauranteId  String
   visitas        Int        @default(1)
+  avaliacaoMedia Float?     @default(0.0) @map("avaliacao_media")
   ultimaVisita   DateTime   @default(now()) @map("ultima_visita")
 
   @@map("historico_usuarios")
   @@unique([usuarioId, restauranteId])
+  @@index([restauranteId, avaliacaoMedia])
 }
 
 model Pedido {
@@ -84,15 +97,17 @@ model Pedido {
   clienteId      String
   restaurante    Restaurante @relation(fields: [restauranteId], references: [id])
   restauranteId  String
-  itens          Json
+  itens          Json      @db.JsonB
   valorTotal     Float     @default(0.0) @map("valor_total")
-  status         String    @default("pendente")
+  status         String    @default("pendente") @db.VarChar(20)
   isPriority     Boolean   @default(false) @map("is_priority")
   prioridade     Int?
+  tempoPreparo   Int?      @map("tempo_preparo")
   createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime  @updatedAt @map("updated_at")
 
   @@map("pedidos")
-  @@index([restauranteId, status])
+  @@index([restauranteId, status, prioridade])
   @@index([isPriority, prioridade])
-  @@index([clienteId])
+  @@index([clienteId, createdAt])
 }
