@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
 import { CartDetailView } from "../cart-detail/cart-detailt.view";
@@ -34,8 +35,8 @@ const tabs: TabItem[] = [
     href: "/",
   },
   {
-    id: "marketplace",
-    label: "Marketplace",
+    id: "membro",
+    label: "Membro",
     icon: (
       <svg
         className="w-6 h-6"
@@ -47,11 +48,11 @@ const tabs: TabItem[] = [
           strokeLinecap="round"
           strokeLinejoin="round"
           strokeWidth={2}
-          d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+          d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
         />
       </svg>
     ),
-    href: "/marketplace",
+    href: "/planos",
   },
   {
     id: "cart",
@@ -77,32 +78,22 @@ const tabs: TabItem[] = [
         />
       </svg>
     ),
-    href: "/acompanhar",
-  },
-  {
-    id: "perfil",
-    label: "Perfil",
-    icon: (
-      <svg
-        className="w-6 h-6"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-        />
-      </svg>
-    ),
-    href: "/perfil",
+    href: "/status",
   },
 ];
 
 export const MobileTabs = () => {
+  const pathname = usePathname();
   const [activeTab, setActiveTab] = useState("home");
+
+  useEffect(() => {
+    const currentTab = tabs.find(tab => tab.href === pathname);
+    if (currentTab) {
+      setActiveTab(currentTab.id);
+    } else if (pathname === "/carrinho") {
+      setActiveTab("cart");
+    }
+  }, [pathname]);
 
   const leftTabs = tabs.slice(0, 2);
   const rightTabs = tabs.slice(3);

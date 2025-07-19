@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🥡 Papa Filas - Solução Inteligente para Filas em Eventos
 
-## Getting Started
+O **Papa Filas** é um sistema completo de cardápio digital com fila inteligente e FastPass, voltado para **eventos de médio e grande porte**. Ele conecta visitantes a restaurantes de forma eficiente, transparente e lucrativa — reduzindo filas, aumentando a satisfação e otimizando a operação dos foodtrucks.
 
-First, run the development server:
+---
+
+## 🚀 Problema
+
+Filas longas e desorganizadas são comuns em eventos, gerando:
+
+- **Experiência negativa para o visitante**
+- **Perda de vendas** para os restaurantes
+- **Falta de controle e previsibilidade** na cozinha
+
+---
+
+## ✅ Nossa Solução
+
+> Um sistema que une **cardápio digital**, **monitoramento de filas em tempo real** e um **sistema justo de FastPass**, com dashboard para gestão de preparo e performance dos restaurantes.
+
+---
+
+## 🧠 Principais Funcionalidades
+
+### 👥 Para o Usuário Final
+- Visualização de restaurantes e **tempo estimado de fila**
+- Escolha e pagamento do pedido direto pelo celular
+- Sistema de **FastPass pago**, que permite furar a fila de forma justa
+
+### 🍳 Para Restaurantes
+- Dashboard com:
+  - Fila em tempo real
+  - Tempo médio de preparo
+  - Capacidade operacional adaptativa
+  - Recomendação de liberação de FastPass baseada em dados
+- Redução de gargalos e maior previsibilidade na operação
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+| Stack        | Tecnologias               |
+|--------------|---------------------------|
+| **Front-end** | Next.js, Tailwind CSS     |
+| **Back-end**  | Supabase (API + Auth)     |
+| **Banco**     | Supabase PostgreSQL       |
+| **Hospedagem**| Vercel + Supabase Hosting |
+
+---
+
+## ⚙️ Lógica da Fila Inteligente
+
+Utilizamos um algoritmo preditivo que calcula:
+
+- Capacidade total da cozinha por hora
+- Tempo médio adaptativo com base em pedidos reais
+- Liberação segura e limitada de FastPass (pagos)
+
+> Isso garante que os pedidos normais não sejam prejudicados e ainda abre margem para receita extra.
+
+---
+
+## 🧪 Executando o Projeto Localmente
 
 ```bash
+git clone https://github.com/seu-usuario/papa-filas.git
+cd papa-filas
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

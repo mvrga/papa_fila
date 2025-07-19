@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Image from 'next/image';
 import { MobileTabs } from '@/components/mobile-tabs/mobile-tabs';
 import { CartDetailView } from '../cart-detail/cart-detailt.view';
+import Link from 'next/link';
 
 export const HeaderView = () => {
   return (
@@ -26,6 +27,24 @@ export const HeaderView = () => {
               </a>
             </div>
             <div className="flex gap-4 items-center">
+              <nav className="flex gap-4">
+                <Link
+                  href="/planos"
+                  className="text-base text-foreground hover:underline"
+                >
+                  Virar membro
+                </Link>
+                <Link
+                  href="/status"
+                  className="text-base text-foreground hover:underline"
+                >
+                  Acompanhar pedido
+                </Link>
+              </nav>
+              <span
+                className="h-6 w-px bg-border mx-2 block"
+                aria-hidden="true"
+              />
               <CartDetailView />
               <Button variant="outline">Entrar</Button>
             </div>

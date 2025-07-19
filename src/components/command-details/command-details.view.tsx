@@ -4,6 +4,9 @@ import { ptBR } from 'date-fns/locale';
 // Types
 import type { Command } from '@/types/command';
 
+// Utils
+import { formatPhone } from '@/utils/formatter-phone';
+
 import {
   DialogContent,
   DialogDescription,
@@ -50,7 +53,9 @@ export function CommandDetails({ command }: CommandDetailsProps) {
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">Telefone</TableCell>
-              <TableCell className="text-right">{command.phone}</TableCell>
+              <TableCell className="text-right">
+                {formatPhone(command.phone)}
+              </TableCell>
             </TableRow>
             <TableRow>
               <TableCell className="text-muted-foreground">E-mail</TableCell>
