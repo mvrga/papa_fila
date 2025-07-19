@@ -1,10 +1,17 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { MobileTabs } from "@/components/mobile-tabs/mobile-tabs";
+import { Button } from '@/components/ui/button';
+import Image from 'next/image';
+import { MobileTabs } from '@/components/mobile-tabs/mobile-tabs';
+
+// Utils
+import { navlinksAdm } from '@/utils/nav-links-adm';
+import Link from 'next/link';
 
 export const HeaderView = () => {
+  const userRole: string = 'adm';
+  const navItems = userRole === 'adm' ? navlinksAdm : [];
+
   return (
     <>
       <header className="hidden lg:block bg-background border-b border-border mx-auto container">
@@ -22,27 +29,12 @@ export const HeaderView = () => {
             </a>
           </div>
           <div className="flex gap-8 items-center">
-            <a
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
-            >
-              Features
-            </a>
-            <a
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
-            >
-              Marketplace
-            </a>
-            <a
-              href="#"
-              className="text-sm font-medium text-muted-foreground hover:text-foreground"
-            >
-              Company
-            </a>
-            <Button variant="outline" className="ml-4">
-              Entrar
-            </Button>
+            {navItems.map((link) => (
+              <Link key={link.href} href={link.href}>
+                {link.label}
+              </Link>
+            ))}
+            <Button variant="outline">Entrar</Button>
           </div>
         </nav>
       </header>
