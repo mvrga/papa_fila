@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Share, Star, Clock } from "lucide-react";
 import { HeaderView } from "@/components/header/header.view";
 import BaseFooter from "@/components/base-footer";
+import { useCart } from "@/contexts/cart-context";
 
 interface DishPageProps {
   params: Promise<{
@@ -194,6 +195,7 @@ function getDishData(restaurantSlug: string, dishSlug: string) {
 export default function DishPage({ params }: DishPageProps) {
   const resolvedParams = use(params);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const { addItem } = useCart();
 
   const dish = getDishData(resolvedParams.slug, resolvedParams.dishSlug);
 
@@ -232,6 +234,29 @@ export default function DishPage({ params }: DishPageProps) {
       style: "currency",
       currency: "BRL",
     }).format(price);
+  };
+
+  const generateIdFromSlug = (dishSlug: string, restaurantSlug: string) => {
+    // Gera um ID único baseado no hash do slug do prato + restaurante
+    const combined = `${restaurantSlug}-${dishSlug}`;
+    let hash = 0;
+    for (let i = 0; i < combined.length; i++) {
+      const char = combined.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    return Math.abs(hash);
+  };
+
+  const handleAddToCart = () => {
+    addItem({
+      id: generateIdFromSlug(resolvedParams.dishSlug, resolvedParams.slug),
+      name: dish.name,
+      price: dish.price,
+      image: dish.images[0],
+      slug: resolvedParams.dishSlug,
+      restaurantSlug: resolvedParams.slug,
+    });
   };
 
   return (
@@ -381,7 +406,10 @@ export default function DishPage({ params }: DishPageProps) {
               </div>
             </div>
 
-            <Button className="mt-8 w-full text-base sm:text-lg">
+            <Button 
+              onClick={handleAddToCart}
+              className="mt-8 w-full text-base sm:text-lg"
+            >
               Adicionar ao carrinho
             </Button>
           </div>

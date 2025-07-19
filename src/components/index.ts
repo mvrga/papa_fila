@@ -9,3 +9,4 @@ export * from "./home-testimonials-section";
 export * from "./card-dish";
 export * from "./list-dishes-card";
 export * from "./restaurant-discount";
+export * from "./cart-items-list";

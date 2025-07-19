@@ -1,0 +1,1 @@
+export { default as CartItemsListView } from './cart-items-list.view';
