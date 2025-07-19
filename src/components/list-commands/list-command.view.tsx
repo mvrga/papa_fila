@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Loader2, Search, Trash } from 'lucide-react';
+import { ArrowRight, Search, Trash } from 'lucide-react';
 
 import { ptBR } from 'date-fns/locale';
 import { formatDistanceToNow } from 'date-fns';
@@ -23,6 +23,7 @@ import { Dialog, DialogTrigger } from '../ui/dialog';
 import { StatCard } from '../stat-card/stat-card.view';
 import { CommandStatus } from '../command-status/command-status.view';
 import { CommandDetails } from '../command-details/command-details.view';
+import { Pagination } from '../pagination/pagination.view';
 
 export function ListCommand() {
   const commandsExamples: Command[] = [
@@ -240,6 +241,15 @@ export function ListCommand() {
           ))}
         </TableBody>
       </Table>
+
+      <div className="mt-4">
+        <Pagination
+          onPageChange={() => {}}
+          pageIndex={0}
+          perPage={10}
+          totalCount={commands.length}
+        />
+      </div>
     </div>
   );
 }
