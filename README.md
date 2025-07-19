@@ -1,69 +1,59 @@
-# 🥡 Papa Filas - Solução Inteligente para Filas em Eventos
+## 🚀 Fluxo do Papa fila
 
-O **Papa Filas** é um sistema completo de cardápio digital com fila inteligente e FastPass, voltado para **eventos de médio e grande porte**. Ele conecta visitantes a restaurantes de forma eficiente, transparente e lucrativa — reduzindo filas, aumentando a satisfação e otimizando a operação dos foodtrucks.
+### 1️⃣ Home - Seleção das Barracas
 
----
+- Exibe uma **lista de barracas ou estabelecimentos** participantes.
+- Cada barraca possui:
+  - Nome
+  - Descrição ou categoria (opcional)
+  - Ícone ou imagem
 
-## 🚀 Problema
-
-Filas longas e desorganizadas são comuns em eventos, gerando:
-
-- **Experiência negativa para o visitante**
-- **Perda de vendas** para os restaurantes
-- **Falta de controle e previsibilidade** na cozinha
+➡️ **Ao selecionar uma barraca, o usuário é redirecionado para a tela de produtos.**
 
 ---
 
-## ✅ Nossa Solução
+### 2️⃣ Produtos da Barraca
 
-> Um sistema que une **cardápio digital**, **monitoramento de filas em tempo real** e um **sistema justo de FastPass**, com dashboard para gestão de preparo e performance dos restaurantes.
-
----
-
-## 🧠 Principais Funcionalidades
-
-### 👥 Para o Usuário Final
-- Visualização de restaurantes e **tempo estimado de fila**
-- Escolha e pagamento do pedido direto pelo celular
-- Sistema de **FastPass pago**, que permite furar a fila de forma justa
-
-### 🍳 Para Restaurantes
-- Dashboard com:
-  - Fila em tempo real
-  - Tempo médio de preparo
-  - Capacidade operacional adaptativa
-  - Recomendação de liberação de FastPass baseada em dados
-- Redução de gargalos e maior previsibilidade na operação
+- Lista os produtos disponíveis na barraca selecionada.
+- Cada produto possui:
+  - Nome
+  - Preço
+  - Descrição
+  - Foto ou ícone
+- Opção de **adicionar produtos ao carrinho**.
+- Controle de quantidade.
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+### 3️⃣ Carrinho e Finalização
 
-| Stack        | Tecnologias               |
-|--------------|---------------------------|
-| **Front-end** | Next.js, Tailwind CSS     |
-| **Back-end**  | Supabase (API + Auth)     |
-| **Banco**     | Supabase PostgreSQL       |
-| **Hospedagem**| Vercel + Supabase Hosting |
+- Visualização do carrinho com os produtos selecionados.
+- Opção de remover ou alterar quantidades.
+- **Ao finalizar o pedido, é gerado um QR Code de pagamento.**
+  - Pode ser Pix ou integração com outro meio de pagamento.
 
 ---
 
-## ⚙️ Lógica da Fila Inteligente
+### 4️⃣ Dashboard (Admin)
 
-Utilizamos um algoritmo preditivo que calcula:
+Rota: `/dashboard`
 
-- Capacidade total da cozinha por hora
-- Tempo médio adaptativo com base em pedidos reais
-- Liberação segura e limitada de FastPass (pagos)
+#### Funcionalidades:
 
-> Isso garante que os pedidos normais não sejam prejudicados e ainda abre margem para receita extra.
+##### 📝 Listagem de Pedidos
 
----
+- Visualização de todos os pedidos recebidos.
+- Mudança de status do pedido:
+  - **Pendente** ➡️ **Em preparo** ➡️ **Pronto** ➡️ **Entregue**
+- Visualização detalhada do pedido:
+  - Produtos
+  - Quantidade
+  - Valor total
+  - Tempo desde o pedido
 
-## 🧪 Executando o Projeto Localmente
+##### 📊 Visão Geral
 
-```bash
-git clone https://github.com/seu-usuario/papa-filas.git
-cd papa-filas
-npm install
-npm run dev
+- **Produtos Pendentes**: Produtos ainda não preparados.
+- **Produtos Totais do Dia**: Quantidade vendida por produto no dia.
+- **Produtos Prontos**: Produtos já finalizados e prontos para entrega.
+
