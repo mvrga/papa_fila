@@ -7,7 +7,7 @@ import { MobileTabs } from "@/components/mobile-tabs/mobile-tabs";
 export const HeaderView = () => {
   return (
     <>
-      <header className="hidden lg:block bg-background border-b border-border">
+      <header className="hidden lg:block bg-background border-b border-border mx-auto container">
         <nav className="flex items-center justify-between p-4">
           <div className="flex items-center gap-2">
             <a href="#" className="flex items-center gap-2">
