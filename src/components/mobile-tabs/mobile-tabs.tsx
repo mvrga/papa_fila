@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ShoppingCart } from "lucide-react";
+import { CartDetailView } from "../cart-detail/cart-detailt.view";
 
 interface TabItem {
   id: string;
@@ -104,7 +105,6 @@ export const MobileTabs = () => {
   const [activeTab, setActiveTab] = useState("home");
 
   const leftTabs = tabs.slice(0, 2);
-  const cartTab = tabs[2];
   const rightTabs = tabs.slice(3);
 
   return (
@@ -127,21 +127,17 @@ export const MobileTabs = () => {
             <span className="text-xs font-medium">{tab.label}</span>
           </Link>
         ))}
-        <Link
-          key={cartTab.id}
-          href={cartTab.href}
+        <div
           className={
             `flex-1 flex flex-col items-center justify-center py-2 px-1 bg-background/80 ` +
-            (activeTab === cartTab.id
+            (activeTab === "cart"
               ? "text-primary"
               : "text-muted-foreground hover:text-foreground")
           }
-          onClick={() => setActiveTab(cartTab.id)}
-          passHref
         >
-          <div className="mb-1">{cartTab.icon}</div>
-          <span className="text-xs font-medium">{cartTab.label}</span>
-        </Link>
+          <CartDetailView onlyIcon />
+          <span className="text-xs font-medium mt-1">Carrinho</span>
+        </div>
         {rightTabs.map((tab) => (
           <Link
             key={tab.id}
