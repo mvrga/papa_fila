@@ -60,13 +60,6 @@ Utilizamos um algoritmo preditivo que calcula:
 
 ---
 
-## 📲 Protótipo (Figma)
-
-Acesse o protótipo navegável de alta fidelidade:  
-[🔗 Clique aqui para visualizar](#) *(link Figma ou PDF do protótipo final)*
-
----
-
 ## 🧪 Executando o Projeto Localmente
 
 ```bash
