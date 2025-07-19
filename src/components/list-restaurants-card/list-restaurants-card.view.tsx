@@ -14,9 +14,12 @@ interface ListRestaurantsCardProps extends HTMLAttributes<HTMLDivElement> {
   categoria?: string | null;
   cidade?: string | null;
   page?: number | null;
+  ordenacao?: { value: string; label: string } | null;
 }
 
 import { BasePaginationView } from "@/components/base-pagination";
+import { CardDishView } from "@/components/card-dish/card-dish.view";
+import { mockDishes } from "@/data/mock-dishes";
 
 const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
   className,
@@ -24,6 +27,7 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
   categoria = null,
   cidade = null,
   page = null,
+  ordenacao = null,
   ...props
 }) => {
   const loading = false;
@@ -34,68 +38,68 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
       items: [
         {
           id: 1,
-          nome_exibicao: "Pizzaria Bella Napoli",
-          cidade: "Copacabana",
+          nome_exibicao: "Outback Steakhouse",
+          cidade: "Cidade do Rock",
           estado: "Rio de Janeiro",
-          nome_usuario: "pizzaria-bella-napoli",
+          nome_usuario: "outback-steakhouse",
           img_cover:
-            "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=100&h=100&fit=crop",
+            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+          img: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop",
           plano: "pro",
         },
         {
           id: 2,
-          nome_exibicao: "Sushi Matsuri",
-          cidade: "Ipanema",
+          nome_exibicao: "Spoleto",
+          cidade: "Cidade do Rock",
           estado: "Rio de Janeiro",
-          nome_usuario: "sushi-matsuri",
+          nome_usuario: "spoleto",
           img_cover:
-            "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1579584425555-c3ce17fd4351?w=100&h=100&fit=crop",
+            "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop",
+          img: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=100&h=100&fit=crop",
           plano: "basico",
         },
         {
           id: 3,
-          nome_exibicao: "Burguer House",
-          cidade: "Leblon",
+          nome_exibicao: "Subway",
+          cidade: "Cidade do Rock",
           estado: "Rio de Janeiro",
-          nome_usuario: "burguer-house",
+          nome_usuario: "subway",
+          img_cover:
+            "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&h=300&fit=crop",
+          img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=100&h=100&fit=crop",
+          plano: "pro",
+        },
+        {
+          id: 4,
+          nome_exibicao: "Habib's",
+          cidade: "Cidade do Rock",
+          estado: "Rio de Janeiro",
+          nome_usuario: "habibs",
+          img_cover:
+            "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=400&h=300&fit=crop",
+          img: "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=100&h=100&fit=crop",
+          plano: "basico",
+        },
+        {
+          id: 5,
+          nome_exibicao: "McDonald's",
+          cidade: "Cidade do Rock",
+          estado: "Rio de Janeiro",
+          nome_usuario: "mcdonalds",
           img_cover:
             "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop",
           img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=100&h=100&fit=crop",
           plano: "pro",
         },
         {
-          id: 4,
-          nome_exibicao: "Cantina da Nonna",
-          cidade: "Botafogo",
-          estado: "Rio de Janeiro",
-          nome_usuario: "cantina-da-nonna",
-          img_cover:
-            "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1551218808-94e220e084d2?w=100&h=100&fit=crop",
-          plano: "basico",
-        },
-        {
-          id: 5,
-          nome_exibicao: "Taco Libre",
-          cidade: "Flamengo",
-          estado: "Rio de Janeiro",
-          nome_usuario: "taco-libre",
-          img_cover:
-            "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=100&h=100&fit=crop",
-          plano: "pro",
-        },
-        {
           id: 6,
-          nome_exibicao: "Padaria Tradicional",
-          cidade: "Lapa",
+          nome_exibicao: "Brahma Lounge",
+          cidade: "Cidade do Rock",
           estado: "Rio de Janeiro",
-          nome_usuario: "padaria-tradicional",
+          nome_usuario: "brahma-lounge",
           img_cover:
-            "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?w=100&h=100&fit=crop",
+            "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+          img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop",
           plano: "basico",
         },
       ],
@@ -108,8 +112,28 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
     },
   };
 
+  // Filter restaurants by search keyword
+  let filteredRestaurants = mockData?.topRestaurantes.items || [];
+  if (palavraChave) {
+    filteredRestaurants = filteredRestaurants.filter((usuario) =>
+      usuario.nome_exibicao.toLowerCase().includes(palavraChave.toLowerCase())
+    );
+  }
+
+  // Filter dishes by search keyword
+  let filteredDishes = mockDishes;
+  if (palavraChave) {
+    filteredDishes = mockDishes.filter((dish) =>
+      dish.name.toLowerCase().includes(palavraChave.toLowerCase()) ||
+      dish.description.toLowerCase().includes(palavraChave.toLowerCase()) ||
+      dish.category.toLowerCase().includes(palavraChave.toLowerCase())
+    );
+  } else {
+    filteredDishes = []; // Only show dishes when searching
+  }
+
   const restaurants =
-    mockData?.topRestaurantes.items.map((usuario) => {
+    filteredRestaurants.map((usuario) => {
       const location =
         usuario.cidade != "null" && usuario.cidade && usuario.estado
           ? `${usuario.cidade}, ${usuario.estado}`
@@ -127,7 +151,43 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
       };
     }) || [];
 
-  if (!loading && restaurants.length === 0) {
+  // Apply sorting to restaurants
+  if (ordenacao?.value) {
+    restaurants.sort((a, b) => {
+      switch (ordenacao.value) {
+        case "prep-asc":
+          return a.name.localeCompare(b.name); // Mock sorting
+        case "prep-desc":
+          return b.name.localeCompare(a.name); // Mock sorting
+        case "rating":
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  // Apply sorting to dishes
+  if (ordenacao?.value) {
+    filteredDishes.sort((a, b) => {
+      switch (ordenacao.value) {
+        case "prep-asc":
+          return a.prepTime - b.prepTime;
+        case "prep-desc":
+          return b.prepTime - a.prepTime;
+        case "price":
+          return a.price - b.price;
+        case "rating":
+          return b.rating - a.rating;
+        default:
+          return 0;
+      }
+    });
+  }
+
+  const hasResults = restaurants.length > 0 || filteredDishes.length > 0;
+
+  if (!loading && !hasResults) {
     return (
       <div className="w-full h-[30dvh] flex flex-col justify-center items-center">
         <svg
@@ -147,11 +207,11 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
 
         <div className="flex flex-col items-center space-y-2 pt-10">
           <h3 className="text-[#282F3D] leading-9 text-center font-semibold text-[24px]">
-            Nenhum restaurante encontrado
+            Nenhum food truck encontrado
           </h3>
 
           <p className="text-[#798AA3] text-center text-sm break-words">
-            Não encontramos nenhum restaurante com os filtros selecionados
+            Não encontramos nenhum food truck com os filtros selecionados
           </p>
         </div>
       </div>
@@ -159,39 +219,73 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
   }
 
   return (
-    <div
-      {...props}
-      className={cn(
-        "w-full gap-8 md:grid md:grid-cols-2 xl:grid-cols-3",
-        className
+    <div className="w-full space-y-8">
+      {/* Dishes Section */}
+      {filteredDishes.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold">Pratos encontrados</h2>
+          <div
+            className={cn(
+              "w-full gap-6 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
+              className
+            )}
+          >
+            {filteredDishes.map((dish) => (
+              <CardDishView
+                key={dish.id}
+                dish={dish}
+                className="min-w-[280px] mb-6 md:mb-0"
+              />
+            ))}
+          </div>
+        </div>
       )}
-    >
-      {loading &&
-        Array.from({ length: 6 }).map((_, index) => (
-          <CardRestaurantSkeleton
-            key={index}
-            className="w-full min-w-[280px]"
-          />
-        ))}
 
-      {!loading &&
-        restaurants.map((restaurant) => (
-          <CardRestaurantView
-            key={restaurant.id}
-            restaurant={restaurant}
-            className="min-w-[280px] mb-7 md:mb-0"
-          />
-        ))}
+      {/* Restaurants Section */}
+      {restaurants.length > 0 && (
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold">
+            {filteredDishes.length > 0 ? "Food Trucks encontrados" : "Food Trucks em destaque"}
+          </h2>
+          <div
+            {...props}
+            className={cn(
+              "w-full gap-6 md:grid md:grid-cols-2 xl:grid-cols-3",
+              className
+            )}
+          >
+            {loading &&
+              Array.from({ length: 6 }).map((_, index) => (
+                <CardRestaurantSkeleton
+                  key={index}
+                  className="w-full min-w-[280px]"
+                />
+              ))}
 
-      <div className="col-span-full flex justify-end">
-        <BasePaginationView
-          pagination={mockData?.topRestaurantes?.metadata}
-          showTotalPages={false}
-          onPageChange={(page: number) => {
-            console.log("Mudando para página:", page);
-          }}
-        />
-      </div>
+            {!loading &&
+              restaurants.map((restaurant) => (
+                <CardRestaurantView
+                  key={restaurant.id}
+                  restaurant={restaurant}
+                  className="min-w-[280px] mb-6 md:mb-0"
+                />
+              ))}
+          </div>
+        </div>
+      )}
+
+      {/* Pagination */}
+      {restaurants.length > 0 && (
+        <div className="flex justify-end">
+          <BasePaginationView
+            pagination={mockData?.topRestaurantes?.metadata}
+            showTotalPages={false}
+            onPageChange={(page: number) => {
+              console.log("Mudando para página:", page);
+            }}
+          />
+        </div>
+      )}
     </div>
   );
 };

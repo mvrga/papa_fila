@@ -388,22 +388,6 @@ export default function DishPage({ params }: DishPageProps) {
                 </ul>
               </div>
 
-              <div>
-                <h2 className="text-lg font-semibold text-gray-900 sm:text-xl">
-                  Tamanhos
-                </h2>
-                <div className="mt-4 flex flex-wrap gap-2 sm:gap-4">
-                  {dish.variants.map((variant: any, index: number) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      className="text-xs sm:text-sm"
-                    >
-                      {variant.name} - {formatPrice(variant.price)}
-                    </Button>
-                  ))}
-                </div>
-              </div>
             </div>
 
             <Button 

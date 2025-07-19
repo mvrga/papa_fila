@@ -99,7 +99,6 @@ export const CartItemsListView: React.FC<CartItemsListProps> = ({
 
   return (
     <div className={cn("w-full h-auto flex flex-col space-y-6", className)}>
-      {/* Itens agrupados por restaurante */}
       {Object.entries(groupedItems).map(([restaurantSlug, restaurantItems]) => {
         const { totalItems, totalPrice: restaurantTotal } =
           getRestaurantStats(restaurantItems);
@@ -109,7 +108,6 @@ export const CartItemsListView: React.FC<CartItemsListProps> = ({
             key={restaurantSlug}
             className="w-full h-auto flex flex-col space-y-4"
           >
-            {/* Cabeçalho do restaurante */}
             <div className="w-full flex justify-between items-center">
               <div className="flex flex-col space-y-1">
                 <h3 className="font-bold text-foreground text-base uppercase tracking-wide">

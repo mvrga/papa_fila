@@ -27,10 +27,13 @@ export default function Home() {
   return (
     <main>
       <HeaderView />
-      <HeroView />
+      <HeroView 
+        palavraChave={palavraChave}
+        setPalavraChave={setPalavraChave}
+      />
 
       <section className="my-20 container mx-auto w-full px-4 flex flex-col gap-6">
-        <h1 className="text-4xl font-medium">Restaurantes em destaques</h1>
+        <h1 className="text-4xl font-medium">Barracas do Rock in Rio</h1>
 
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between w-full">
           <div className="flex flex-col items-start gap-1 w-full md:max-w-xl">
@@ -39,7 +42,7 @@ export default function Home() {
                 palavraChave={palavraChave}
                 setPalavraChave={setPalavraChave}
                 className="flex-1"
-                placeholder="Digite o nome do restaurante ou um prato"
+                placeholder="Digite o nome da barraca ou um prato"
               />
               <BaseSearchSelectView
                 label="Ordenar por"
@@ -53,7 +56,10 @@ export default function Home() {
           </div>
         </div>
 
-        <ListRestaurantsCardView />
+        <ListRestaurantsCardView 
+          palavraChave={palavraChave}
+          ordenacao={ordenacao}
+        />
       </section>
 
       <HomeTestimonialsSection />

@@ -1,0 +1,267 @@
+export const mockDishes = [
+  // Outback Steakhouse
+  {
+    id: 1,
+    name: "Bloomin' Onion",
+    description: "Cebola empanada e frita servida com molho especial Outback",
+    price: 42.90,
+    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+    slug: "bloomin-onion",
+    prepTime: 15,
+    rating: 4.8,
+    category: "Aperitivo",
+    type: "comida" as const,
+    restaurantSlug: "outback-steakhouse",
+    restaurantName: "Outback Steakhouse"
+  },
+  {
+    id: 2,
+    name: "Outback Burger",
+    description: "Hambúrguer com queijo, bacon, alface, tomate e molho especial",
+    price: 38.90,
+    image: "https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400&h=300&fit=crop",
+    slug: "outback-burger",
+    prepTime: 20,
+    rating: 4.7,
+    category: "Burger",
+    type: "comida" as const,
+    restaurantSlug: "outback-steakhouse",
+    restaurantName: "Outback Steakhouse"
+  },
+
+  // Spoleto
+  {
+    id: 3,
+    name: "Massa ao Molho Pesto",
+    description: "Penne com molho pesto, tomate seco e queijo parmesão",
+    price: 24.90,
+    image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop",
+    slug: "massa-pesto",
+    prepTime: 8,
+    rating: 4.6,
+    category: "Massa",
+    type: "comida" as const,
+    restaurantSlug: "spoleto",
+    restaurantName: "Spoleto"
+  },
+  {
+    id: 4,
+    name: "Salada Caesar",
+    description: "Alface romana, croutons, queijo parmesão e molho caesar",
+    price: 22.90,
+    image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=400&h=300&fit=crop",
+    slug: "salada-caesar",
+    prepTime: 5,
+    rating: 4.5,
+    category: "Salada",
+    type: "comida" as const,
+    restaurantSlug: "spoleto",
+    restaurantName: "Spoleto"
+  },
+
+  // Subway
+  {
+    id: 5,
+    name: "Subway Melt 30cm",
+    description: "Sanduíche com peru, presunto, bacon e queijo derretido",
+    price: 28.90,
+    image: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&h=300&fit=crop",
+    slug: "subway-melt-30cm",
+    prepTime: 10,
+    rating: 4.4,
+    category: "Sanduíche",
+    type: "comida" as const,
+    restaurantSlug: "subway",
+    restaurantName: "Subway"
+  },
+  {
+    id: 6,
+    name: "Italian B.M.T 15cm",
+    description: "Salame, pepperoni, presunto com queijo e vegetais",
+    price: 18.90,
+    image: "https://images.unsplash.com/photo-1555072956-7758afb4d7de?w=400&h=300&fit=crop",
+    slug: "italian-bmt-15cm",
+    prepTime: 8,
+    rating: 4.3,
+    category: "Sanduíche",
+    type: "comida" as const,
+    restaurantSlug: "subway",
+    restaurantName: "Subway"
+  },
+
+  // Habib's
+  {
+    id: 7,
+    name: "Esfiha de Carne",
+    description: "Esfiha tradicional recheada com carne temperada",
+    price: 6.90,
+    image: "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=400&h=300&fit=crop",
+    slug: "esfiha-carne",
+    prepTime: 5,
+    rating: 4.5,
+    category: "Esfiha",
+    type: "comida" as const,
+    restaurantSlug: "habibs",
+    restaurantName: "Habib's"
+  },
+  {
+    id: 8,
+    name: "Kibe Frito",
+    description: "Kibe tradicional frito, crocante por fora e macio por dentro",
+    price: 8.90,
+    image: "https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=300&fit=crop",
+    slug: "kibe-frito",
+    prepTime: 3,
+    rating: 4.4,
+    category: "Frito",
+    type: "comida" as const,
+    restaurantSlug: "habibs",
+    restaurantName: "Habib's"
+  },
+
+  // McDonald's
+  {
+    id: 9,
+    name: "Big Mac",
+    description: "Dois hambúrgueres, molho especial, alface, queijo, picles, cebola",
+    price: 24.90,
+    image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop",
+    slug: "big-mac",
+    prepTime: 8,
+    rating: 4.6,
+    category: "Burger",
+    type: "comida" as const,
+    restaurantSlug: "mcdonalds",
+    restaurantName: "McDonald's"
+  },
+  {
+    id: 10,
+    name: "McFritas Grande",
+    description: "Batatas fritas douradas e crocantes no tamanho grande",
+    price: 12.90,
+    image: "https://images.unsplash.com/photo-1576107232684-1279f390031f?w=400&h=300&fit=crop",
+    slug: "mcfritas-grande",
+    prepTime: 5,
+    rating: 4.7,
+    category: "Acompanhamento",
+    type: "comida" as const,
+    restaurantSlug: "mcdonalds",
+    restaurantName: "McDonald's"
+  },
+
+  // Brahma Lounge
+  {
+    id: 11,
+    name: "Brahma Chopp",
+    description: "Chopp Brahma gelado direto do barril",
+    price: 14.90,
+    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+    slug: "brahma-chopp",
+    prepTime: 2,
+    rating: 4.8,
+    category: "Cerveja",
+    type: "bebida" as const,
+    restaurantSlug: "brahma-lounge",
+    restaurantName: "Brahma Lounge"
+  },
+  {
+    id: 12,
+    name: "Caipirinha de Limão",
+    description: "Caipirinha tradicional com limão e cachaça",
+    price: 18.90,
+    image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400&h=300&fit=crop",
+    slug: "caipirinha-limao",
+    prepTime: 3,
+    rating: 4.6,
+    category: "Drink",
+    type: "bebida" as const,
+    restaurantSlug: "brahma-lounge",
+    restaurantName: "Brahma Lounge"
+  },
+
+  // Mais pratos de frango
+  {
+    id: 13,
+    name: "Frango Grelhado Outback",
+    description: "Peito de frango grelhado com temperos australianos",
+    price: 34.90,
+    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",
+    slug: "frango-grelhado-outback",
+    prepTime: 18,
+    rating: 4.7,
+    category: "Frango",
+    type: "comida" as const,
+    restaurantSlug: "outback-steakhouse",
+    restaurantName: "Outback Steakhouse"
+  },
+  {
+    id: 14,
+    name: "Chicken Teriyaki Subway",
+    description: "Sanduíche 30cm com frango teriyaki, queijo e vegetais",
+    price: 26.90,
+    image: "https://images.unsplash.com/photo-1598103442097-8b74394b95c6?w=400&h=300&fit=crop",
+    slug: "chicken-teriyaki-subway",
+    prepTime: 12,
+    rating: 4.5,
+    category: "Sanduíche",
+    type: "comida" as const,
+    restaurantSlug: "subway",
+    restaurantName: "Subway"
+  },
+  {
+    id: 15,
+    name: "McChicken",
+    description: "Hambúrguer de frango empanado com alface e maionese",
+    price: 19.90,
+    image: "https://images.unsplash.com/photo-1606755962773-d324e9a13086?w=400&h=300&fit=crop",
+    slug: "mcchicken",
+    prepTime: 10,
+    rating: 4.4,
+    category: "Burger",
+    type: "comida" as const,
+    restaurantSlug: "mcdonalds",
+    restaurantName: "McDonald's"
+  },
+  {
+    id: 16,
+    name: "Frango Crispy Spoleto",
+    description: "Frango empanado crocante sobre massa ou salada",
+    price: 28.90,
+    image: "https://images.unsplash.com/photo-1606755962773-d324e9a13086?w=400&h=300&fit=crop",
+    slug: "frango-crispy-spoleto",
+    prepTime: 15,
+    rating: 4.6,
+    category: "Frango",
+    type: "comida" as const,
+    restaurantSlug: "spoleto",
+    restaurantName: "Spoleto"
+  },
+  {
+    id: 17,
+    name: "Esfiha de Frango",
+    description: "Esfiha recheada com frango temperado e cebola",
+    price: 7.90,
+    image: "https://images.unsplash.com/photo-1606755962773-d324e9a13086?w=400&h=300&fit=crop",
+    slug: "esfiha-frango",
+    prepTime: 5,
+    rating: 4.3,
+    category: "Esfiha",
+    type: "comida" as const,
+    restaurantSlug: "habibs",
+    restaurantName: "Habib's"
+  },
+  {
+    id: 18,
+    name: "McNuggets 10 unidades",
+    description: "Nuggets de frango crocantes acompanhados de molho",
+    price: 22.90,
+    image: "https://images.unsplash.com/photo-1606755962773-d324e9a13086?w=400&h=300&fit=crop",
+    slug: "mcnuggets-10",
+    prepTime: 8,
+    rating: 4.8,
+    category: "Frango",
+    type: "comida" as const,
+    restaurantSlug: "mcdonalds",
+    restaurantName: "McDonald's"
+  }
+];

@@ -1,6 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import Cookies from 'js-cookie';
 
 interface CartItem {
   id: number;
@@ -38,6 +39,29 @@ interface CartProviderProps {
 
 export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+
+  // Load cart from cookies on component mount
+  useEffect(() => {
+    const savedCart = Cookies.get('papa_fila_cart');
+    if (savedCart) {
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        setItems(parsedCart);
+      } catch (error) {
+        console.error('Error parsing cart from cookies:', error);
+        Cookies.remove('papa_fila_cart');
+      }
+    }
+  }, []);
+
+  // Save cart to cookies whenever items change
+  useEffect(() => {
+    if (items.length > 0) {
+      Cookies.set('papa_fila_cart', JSON.stringify(items), { expires: 7 }); // 7 days
+    } else {
+      Cookies.remove('papa_fila_cart');
+    }
+  }, [items]);
 
   const addItem = (newItem: Omit<CartItem, 'quantity'>) => {
     setItems(prevItems => {

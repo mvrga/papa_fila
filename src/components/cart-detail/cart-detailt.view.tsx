@@ -9,10 +9,18 @@ import {
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useCart } from "@/contexts/cart-context";
+import { useState } from "react";
 import { CartItemsListView } from "../cart-items-list/cart-items-list.view";
+import { OrderConfirmationView } from "../order-confirmation/order-confirmation.view";
+import { WaitingConfirmationView } from "../waiting-confirmation/waiting-confirmation.view";
 
 export const CartDetailView = () => {
   const { totalItems, totalPrice, items, clearCart } = useCart();
+  const [fastPass, setFastPass] = useState(false);
+  const [showWaitingConfirmation, setShowWaitingConfirmation] = useState(false);
+  const [showOrderConfirmation, setShowOrderConfirmation] = useState(false);
+  const [orderId, setOrderId] = useState("");
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -63,20 +71,38 @@ export const CartDetailView = () => {
     return totalDiscount;
   };
 
+  const fastPassFee = 5.0;
   const subtotal = totalPrice;
   const desconto = calculateDiscount();
-  const total = subtotal - desconto;
+  const total = subtotal - desconto + (fastPass ? fastPassFee : 0);
 
-  const handleFinalizarPedido = () => {
-    console.log("Finalizar pedido");
+  const generateOrderId = () => {
+    return `PP${Date.now().toString().slice(-8)}${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
   };
 
-  const handleCancelar = () => {
+  const handleFinalizarPedido = () => {
+    if (items.length === 0) return;
+    
+    const newOrderId = generateOrderId();
+    setOrderId(newOrderId);
+    setIsSheetOpen(false);
+    setShowWaitingConfirmation(true);
+  };
+
+  const handleConfirmationReceived = () => {
+    setShowWaitingConfirmation(false);
+    setShowOrderConfirmation(true);
+  };
+
+  const handleCloseOrderConfirmation = () => {
+    setShowOrderConfirmation(false);
+    setOrderId("");
     clearCart();
   };
 
+
   return (
-    <Sheet>
+    <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
       <SheetTrigger>
         <div className="flex gap-1 items-center">
           <span className="relative">
@@ -87,13 +113,15 @@ export const CartDetailView = () => {
               </span>
             )}
           </span>
-          <span className="">Carrinho</span>
+          <span>Carrinho</span>
         </div>
       </SheetTrigger>
 
       <SheetContent className="w-full sm:max-w-lg flex flex-col">
         <SheetHeader className="px-6 pb-4 border-b">
-          <SheetTitle className="text-left text-xl font-semibold">Seu Carrinho</SheetTitle>
+          <SheetTitle className="text-left text-xl font-semibold">
+            Seu carrinho
+          </SheetTitle>
           <SheetDescription className="text-left text-sm text-muted-foreground mt-1">
             Revise seus itens antes de finalizar
           </SheetDescription>
@@ -108,10 +136,11 @@ export const CartDetailView = () => {
 
           <div className="border-t bg-background/50 backdrop-blur-sm">
             <div className="px-6 py-4 space-y-4">
-              {/* Resumo financeiro melhorado */}
               <div className="bg-muted/30 rounded-lg p-4 space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Subtotal</span>
+                  <span className="text-sm text-muted-foreground">
+                    Subtotal
+                  </span>
                   <span className="text-sm font-medium">
                     {formatPrice(subtotal)}
                   </span>
@@ -119,15 +148,32 @@ export const CartDetailView = () => {
 
                 {desconto > 0 ? (
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-muted-foreground">Desconto progressivo</span>
+                    <span className="text-sm text-muted-foreground">
+                      Desconto progressivo
+                    </span>
                     <span className="text-sm font-medium text-green-600">
                       -{formatPrice(desconto)}
                     </span>
                   </div>
                 ) : (
                   <div className="flex justify-between items-center opacity-50">
-                    <span className="text-sm text-muted-foreground">Desconto</span>
-                    <span className="text-sm text-muted-foreground">R$ 0,00</span>
+                    <span className="text-sm text-muted-foreground">
+                      Desconto
+                    </span>
+                    <span className="text-sm text-muted-foreground">
+                      R$ 0,00
+                    </span>
+                  </div>
+                )}
+
+                {fastPass && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-muted-foreground">
+                      Fast Pass
+                    </span>
+                    <span className="text-sm font-medium text-blue-600">
+                      +{formatPrice(fastPassFee)}
+                    </span>
                   </div>
                 )}
 
@@ -141,9 +187,30 @@ export const CartDetailView = () => {
                 </div>
               </div>
 
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={fastPass}
+                    onChange={(e) => setFastPass(e.target.checked)}
+                    className="mt-1 h-4 w-4 text-blue-600 border-2 border-blue-300 rounded focus:ring-blue-500"
+                  />
+                  <div className="flex-1">
+                    <div className="text-sm font-medium text-blue-900">
+                      Fast Pass (+R$ 5,00)
+                    </div>
+                    <div className="text-xs text-blue-700 mt-1">
+                      Entrega prioritária - seu pedido será preparado e entregue
+                      mais rapidamente
+                    </div>
+                  </div>
+                </label>
+              </div>
+
               <Button
                 onClick={handleFinalizarPedido}
-                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2.5 rounded-lg shadow-sm"
+                disabled={items.length === 0}
+                className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-2.5 rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Finalizar Pedido
               </Button>
@@ -151,6 +218,25 @@ export const CartDetailView = () => {
           </div>
         </div>
       </SheetContent>
+
+      <OrderConfirmationView
+        isOpen={showOrderConfirmation}
+        onClose={handleCloseOrderConfirmation}
+        items={items.map(item => ({
+          ...item,
+          id: item.id.toString(),
+          restaurantName: item.restaurantSlug.charAt(0).toUpperCase() + item.restaurantSlug.slice(1)
+        }))}
+        total={total}
+        fastPass={fastPass}
+        orderId={orderId}
+      />
+
+      <WaitingConfirmationView
+        isOpen={showWaitingConfirmation}
+        onConfirmed={handleConfirmationReceived}
+        orderId={orderId}
+      />
     </Sheet>
   );
 };
