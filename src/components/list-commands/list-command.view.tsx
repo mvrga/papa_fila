@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Loader2, Search } from 'lucide-react';
+import { ArrowRight, Loader2, Search, Trash } from 'lucide-react';
 
 import { ptBR } from 'date-fns/locale';
 import { formatDistanceToNow } from 'date-fns';
@@ -206,7 +206,7 @@ export function ListCommand() {
                     size="sm"
                     onClick={() => handleNextStep(command)}
                   >
-                    Finalizado
+                    Finalizar
                     <ArrowRight className="ml-2 h-3 w-3" />
                   </Button>
                 )}
@@ -231,12 +231,8 @@ export function ListCommand() {
                     onClick={() => handleCancelCommand(command.id)}
                     className="text-red-300"
                   >
-                    {!new Date() ? (
-                      <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-                    ) : (
-                      <ArrowRight className="mr-2 h-3 w-3" />
-                    )}
                     Cancelar
+                    <Trash className="mr-2 h-3 w-3" />
                   </Button>
                 )}
               </TableCell>
