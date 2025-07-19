@@ -2,6 +2,7 @@ import React from "react";
 
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { Clock } from "lucide-react";
 
 interface CardRestaurantProps
   extends React.HTMLAttributes<HTMLAnchorElement> {
@@ -14,6 +15,7 @@ interface CardRestaurantProps
     slug: string;
     rating?: number;
     pro?: "basico" | "pro";
+    tempoEntrega?: string;
   };
 }
 
@@ -68,6 +70,17 @@ const CardRestaurantView: React.FC<CardRestaurantProps> = ({
                   {restaurant.rating}
                 </span>
               </div>
+            )}
+            {restaurant.tempoEntrega && (
+              <>
+                {restaurant.rating && <span className="text-xs text-gray-400">•</span>}
+                <div className="flex items-center">
+                  <Clock className="h-3 w-3 text-gray-500 mr-1" />
+                  <span className="text-xs text-gray-600">
+                    {restaurant.tempoEntrega}
+                  </span>
+                </div>
+              </>
             )}
           </div>
         </div>

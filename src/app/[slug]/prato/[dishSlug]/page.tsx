@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Share, Star, Clock } from "lucide-react";
 import { HeaderView } from "@/components/header/header.view";
 import BaseFooter from "@/components/base-footer";
+import { BackButton } from "@/components/back-button";
 import { useCart } from "@/contexts/cart-context";
+import { toast } from "sonner";
 
 interface DishPageProps {
   params: Promise<{
@@ -257,11 +259,17 @@ export default function DishPage({ params }: DishPageProps) {
       slug: resolvedParams.dishSlug,
       restaurantSlug: resolvedParams.slug,
     });
+
+    toast.success(`${dish.name} adicionado ao carrinho!`, {
+      description: `${formatPrice(dish.price)} • Food Truck`,
+      duration: 3000,
+    });
   };
 
   return (
     <main>
       <HeaderView />
+      <BackButton />
 
       <section className="lg:md:mx-[8.75rem] md:px-8 lg:px-0 px-4 py-32">
         <div className="flex flex-col lg:flex-row lg:space-x-8 xl:space-x-32">

@@ -88,7 +88,8 @@ export const BaseSearchSelectView = ({
 
   React.useEffect(() => {
     if (value) {
-      setInputValue(value.value);
+      setInputValue(value.label);
+      setSelectedOptions(value);
     }
   }, [value]);
 

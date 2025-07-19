@@ -15,6 +15,7 @@ interface ListRestaurantsCardProps extends HTMLAttributes<HTMLDivElement> {
   cidade?: string | null;
   page?: number | null;
   ordenacao?: { value: string; label: string } | null;
+  onPageChange?: (page: number) => void;
 }
 
 import { BasePaginationView } from "@/components/base-pagination";
@@ -26,96 +27,153 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
   palavraChave = null,
   categoria = null,
   cidade = null,
-  page = null,
+  page = 1,
   ordenacao = null,
+  onPageChange,
   ...props
 }) => {
   const loading = false;
 
-  // Mock data para simular a query
-  const mockData = {
-    topRestaurantes: {
-      items: [
-        {
-          id: 1,
-          nome_exibicao: "Outback Steakhouse",
-          cidade: "Cidade do Rock",
-          estado: "Rio de Janeiro",
-          nome_usuario: "outback-steakhouse",
-          img_cover:
-            "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop",
-          plano: "pro",
-        },
-        {
-          id: 2,
-          nome_exibicao: "Spoleto",
-          cidade: "Cidade do Rock",
-          estado: "Rio de Janeiro",
-          nome_usuario: "spoleto",
-          img_cover:
-            "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=100&h=100&fit=crop",
-          plano: "basico",
-        },
-        {
-          id: 3,
-          nome_exibicao: "Subway",
-          cidade: "Cidade do Rock",
-          estado: "Rio de Janeiro",
-          nome_usuario: "subway",
-          img_cover:
-            "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=100&h=100&fit=crop",
-          plano: "pro",
-        },
-        {
-          id: 4,
-          nome_exibicao: "Habib's",
-          cidade: "Cidade do Rock",
-          estado: "Rio de Janeiro",
-          nome_usuario: "habibs",
-          img_cover:
-            "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=100&h=100&fit=crop",
-          plano: "basico",
-        },
-        {
-          id: 5,
-          nome_exibicao: "McDonald's",
-          cidade: "Cidade do Rock",
-          estado: "Rio de Janeiro",
-          nome_usuario: "mcdonalds",
-          img_cover:
-            "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=100&h=100&fit=crop",
-          plano: "pro",
-        },
-        {
-          id: 6,
-          nome_exibicao: "Brahma Lounge",
-          cidade: "Cidade do Rock",
-          estado: "Rio de Janeiro",
-          nome_usuario: "brahma-lounge",
-          img_cover:
-            "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
-          img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop",
-          plano: "basico",
-        },
-      ],
-      metadata: {
-        currentPage: 1,
-        totalPages: 2,
-        totalItems: 8,
-        itemsPerPage: 6,
-      },
+  // Mock data expandido para simular paginação com avaliações e preços diferentes
+  const allRestaurants = [
+    {
+      id: 1,
+      nome_exibicao: "Outback Steakhouse",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "outback-steakhouse",
+      img_cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=100&h=100&fit=crop",
+      plano: "pro",
+      tempoEntrega: "25-35 min",
+      rating: 4.8,
+      priceRange: 4, // $$$$
     },
-  };
+    {
+      id: 2,
+      nome_exibicao: "Spoleto",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "spoleto",
+      img_cover: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?w=100&h=100&fit=crop",
+      plano: "basico",
+      tempoEntrega: "15-25 min",
+      rating: 4.2,
+      priceRange: 2, // $$
+    },
+    {
+      id: 3,
+      nome_exibicao: "Subway",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "subway",
+      img_cover: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=100&h=100&fit=crop",
+      plano: "pro",
+      tempoEntrega: "20-30 min",
+      rating: 4.0,
+      priceRange: 2, // $$
+    },
+    {
+      id: 4,
+      nome_exibicao: "Habib's",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "habibs",
+      img_cover: "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1565299585323-38dd212d1b80?w=100&h=100&fit=crop",
+      plano: "basico",
+      tempoEntrega: "30-40 min",
+      rating: 3.8,
+      priceRange: 1, // $
+    },
+    {
+      id: 5,
+      nome_exibicao: "McDonald's",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "mcdonalds",
+      img_cover: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=100&h=100&fit=crop",
+      plano: "pro",
+      tempoEntrega: "10-20 min",
+      rating: 4.1,
+      priceRange: 2, // $$
+    },
+    {
+      id: 6,
+      nome_exibicao: "Brahma Lounge",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "brahma-lounge",
+      img_cover: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=100&h=100&fit=crop",
+      plano: "basico",
+      tempoEntrega: "35-45 min",
+      rating: 4.5,
+      priceRange: 3, // $$$
+    },
+    {
+      id: 7,
+      nome_exibicao: "Pizza Hut",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "pizza-hut",
+      img_cover: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=100&h=100&fit=crop",
+      plano: "pro",
+      tempoEntrega: "40-50 min",
+      rating: 4.3,
+      priceRange: 3, // $$$
+    },
+    {
+      id: 8,
+      nome_exibicao: "KFC",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "kfc",
+      img_cover: "https://images.unsplash.com/photo-1606755962773-d324e608afc0?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1606755962773-d324e608afc0?w=100&h=100&fit=crop",
+      plano: "basico",
+      tempoEntrega: "25-35 min",
+      rating: 3.9,
+      priceRange: 2, // $$
+    },
+    {
+      id: 9,
+      nome_exibicao: "Burger King",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "burger-king",
+      img_cover: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=100&h=100&fit=crop",
+      plano: "pro",
+      tempoEntrega: "15-25 min",
+      rating: 4.0,
+      priceRange: 2, // $$
+    },
+    {
+      id: 10,
+      nome_exibicao: "Taco Bell",
+      cidade: "Cidade do Rock",
+      estado: "Rio de Janeiro",
+      nome_usuario: "taco-bell",
+      img_cover: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=400&h=300&fit=crop",
+      img: "https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=100&h=100&fit=crop",
+      plano: "basico",
+      tempoEntrega: "20-30 min",
+      rating: 4.6,
+      priceRange: 2, // $$
+    },
+  ];
+
+  const itemsPerPage = 6;
 
   // Filter restaurants by search keyword
-  let filteredRestaurants = mockData?.topRestaurantes.items || [];
+  let filteredRestaurants = allRestaurants;
   if (palavraChave) {
-    filteredRestaurants = filteredRestaurants.filter((usuario) =>
+    filteredRestaurants = allRestaurants.filter((usuario) =>
       usuario.nome_exibicao.toLowerCase().includes(palavraChave.toLowerCase())
     );
   }
@@ -132,8 +190,37 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
     filteredDishes = []; // Only show dishes when searching
   }
 
+  // Apply sorting first
+  if (ordenacao?.value) {
+    filteredRestaurants.sort((a, b) => {
+      switch (ordenacao.value) {
+        case "prep-asc":
+          // Sort by delivery time (shorter first)
+          const aTime = parseInt(a.tempoEntrega.split('-')[0]);
+          const bTime = parseInt(b.tempoEntrega.split('-')[0]);
+          return aTime - bTime;
+        case "prep-desc":
+          // Sort by delivery time (longer first)
+          const aTimeDesc = parseInt(a.tempoEntrega.split('-')[0]);
+          const bTimeDesc = parseInt(b.tempoEntrega.split('-')[0]);
+          return bTimeDesc - aTimeDesc;
+        case "rating":
+          return b.rating - a.rating; // Sort by rating (highest first)
+        default:
+          return 0;
+      }
+    });
+  }
+
+  // Calculate pagination after filtering and sorting
+  const totalFilteredItems = filteredRestaurants.length;
+  const totalFilteredPages = Math.ceil(totalFilteredItems / itemsPerPage);
+  const startIndex = ((page || 1) - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedRestaurants = filteredRestaurants.slice(startIndex, endIndex);
+
   const restaurants =
-    filteredRestaurants.map((usuario) => {
+    paginatedRestaurants.map((usuario) => {
       const location =
         usuario.cidade != "null" && usuario.cidade && usuario.estado
           ? `${usuario.cidade}, ${usuario.estado}`
@@ -144,28 +231,16 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
         name: usuario.nome_exibicao,
         location: location,
         slug: `/${usuario.nome_usuario}`,
-        rating: 5,
+        rating: usuario.rating,
         image: usuario.img_cover,
         avatar: usuario.img,
         pro: usuario.plano as "basico" | "pro",
+        tempoEntrega: usuario.tempoEntrega,
+        priceRange: usuario.priceRange,
       };
     }) || [];
 
-  // Apply sorting to restaurants
-  if (ordenacao?.value) {
-    restaurants.sort((a, b) => {
-      switch (ordenacao.value) {
-        case "prep-asc":
-          return a.name.localeCompare(b.name); // Mock sorting
-        case "prep-desc":
-          return b.name.localeCompare(a.name); // Mock sorting
-        case "rating":
-          return b.rating - a.rating;
-        default:
-          return 0;
-      }
-    });
-  }
+  // Sorting já foi aplicado acima
 
   // Apply sorting to dishes
   if (ordenacao?.value) {
@@ -275,13 +350,20 @@ const ListRestaurantsCardView: React.FC<ListRestaurantsCardProps> = ({
       )}
 
       {/* Pagination */}
-      {restaurants.length > 0 && (
+      {restaurants.length > 0 && totalFilteredPages > 1 && (
         <div className="flex justify-end">
           <BasePaginationView
-            pagination={mockData?.topRestaurantes?.metadata}
+            pagination={{
+              currentPage: page || 1,
+              totalPages: totalFilteredPages,
+              totalItems: totalFilteredItems,
+              itemsPerPage: itemsPerPage,
+            }}
             showTotalPages={false}
-            onPageChange={(page: number) => {
-              console.log("Mudando para página:", page);
+            onPageChange={(newPage: number) => {
+              if (onPageChange) {
+                onPageChange(newPage);
+              }
             }}
           />
         </div>

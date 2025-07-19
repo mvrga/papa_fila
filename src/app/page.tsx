@@ -15,6 +15,7 @@ import { useState } from "react";
 export default function Home() {
   const [palavraChave, setPalavraChave] = useState<string | null>(null);
   const [ordenacao, setOrdenacao] = useState<Options | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const ordenacaoOptions: Options[] = [
     { value: "prep-asc", label: "Menor tempo de preparo" },
@@ -40,7 +41,10 @@ export default function Home() {
             <div className="flex flex-col gap-2 w-full sm:flex-row">
               <FilterKeywordView
                 palavraChave={palavraChave}
-                setPalavraChave={setPalavraChave}
+                setPalavraChave={(value) => {
+                  setPalavraChave(value);
+                  setCurrentPage(1); // Reset page when searching
+                }}
                 className="flex-1"
                 placeholder="Digite o nome da barraca ou um prato"
               />
@@ -49,7 +53,10 @@ export default function Home() {
                 placeholder="Ordenar por"
                 options={ordenacaoOptions}
                 value={ordenacao}
-                onChange={setOrdenacao}
+                onChange={(value) => {
+                  setOrdenacao(value);
+                  setCurrentPage(1); // Reset page when changing sort
+                }}
                 className="w-full lg:w-56"
               />
             </div>
@@ -59,6 +66,8 @@ export default function Home() {
         <ListRestaurantsCardView 
           palavraChave={palavraChave}
           ordenacao={ordenacao}
+          page={currentPage}
+          onPageChange={setCurrentPage}
         />
       </section>
 

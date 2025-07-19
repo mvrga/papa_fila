@@ -3,6 +3,7 @@ import QRCode from "qrcode";
 import { Clock, CheckCircle2 } from "lucide-react";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { useRouter } from "next/navigation";
 
 interface OrderItem {
   id: string;
@@ -40,10 +41,16 @@ export const OrderConfirmationView = ({
   orderId,
   scheduledTime,
 }: OrderConfirmationProps) => {
+  const router = useRouter();
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
   const [restaurantTimers, setRestaurantTimers] = useState<RestaurantTimer[]>(
     []
   );
+
+  const handleNavigateToStatus = () => {
+    router.push("/status");
+    onClose(); // Close the modal after navigation
+  };
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -290,7 +297,7 @@ export const OrderConfirmationView = ({
             <Button onClick={onClose} variant="outline" className="flex-1">
               Fechar
             </Button>
-            <Button onClick={onClose} className="flex-1">
+            <Button onClick={handleNavigateToStatus} className="flex-1">
               Acompanhar Status
             </Button>
           </div>
