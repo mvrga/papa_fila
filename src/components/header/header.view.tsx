@@ -32,7 +32,7 @@ export const HeaderView = () => {
                   Virar membro
                 </Link>
                 <Link
-                  href="/acompanhar"
+                  href="/status"
                   className="text-base text-foreground hover:underline"
                 >
                   Acompanhar pedido

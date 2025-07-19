@@ -2,12 +2,7 @@ import { useEffect, useState } from "react";
 import QRCode from "qrcode";
 import { Clock, CheckCircle2 } from "lucide-react";
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 interface OrderItem {
   id: string;
@@ -25,6 +20,7 @@ interface OrderConfirmationProps {
   total: number;
   fastPass: boolean;
   orderId: string;
+  scheduledTime?: string;
 }
 
 interface RestaurantTimer {
@@ -42,9 +38,12 @@ export const OrderConfirmationView = ({
   total,
   fastPass,
   orderId,
+  scheduledTime,
 }: OrderConfirmationProps) => {
   const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
-  const [restaurantTimers, setRestaurantTimers] = useState<RestaurantTimer[]>([]);
+  const [restaurantTimers, setRestaurantTimers] = useState<RestaurantTimer[]>(
+    []
+  );
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -62,21 +61,33 @@ export const OrderConfirmationView = ({
     return slug.replace(/-/g, " ").replace(/\b\w/g, (l) => l.toUpperCase());
   };
 
-  const groupedItems = items.reduce((groups: Record<string, OrderItem[]>, item) => {
-    if (!groups[item.restaurantSlug]) {
-      groups[item.restaurantSlug] = [];
-    }
-    groups[item.restaurantSlug].push(item);
-    return groups;
-  }, {});
+  const groupedItems = items.reduce(
+    (groups: Record<string, OrderItem[]>, item) => {
+      if (!groups[item.restaurantSlug]) {
+        groups[item.restaurantSlug] = [];
+      }
+      groups[item.restaurantSlug].push(item);
+      return groups;
+    },
+    {}
+  );
 
   const getRestaurantStats = (restaurantItems: OrderItem[]) => {
-    const totalItems = restaurantItems.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = restaurantItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const totalItems = restaurantItems.reduce(
+      (sum, item) => sum + item.quantity,
+      0
+    );
+    const totalPrice = restaurantItems.reduce(
+      (sum, item) => sum + item.price * item.quantity,
+      0
+    );
     return { totalItems, totalPrice };
   };
 
-  const maxEstimatedTime = restaurantTimers.length > 0 ? Math.max(...restaurantTimers.map(t => t.estimatedTime)) : 0;
+  const maxEstimatedTime =
+    restaurantTimers.length > 0
+      ? Math.max(...restaurantTimers.map((t) => t.estimatedTime))
+      : 0;
 
   useEffect(() => {
     if (isOpen && orderId) {
@@ -84,12 +95,12 @@ export const OrderConfirmationView = ({
         orderId,
         total,
         fastPass,
-        items: items.map(item => ({
+        items: items.map((item) => ({
           id: item.id,
           name: item.name,
           quantity: item.quantity,
           price: item.price,
-          restaurantSlug: item.restaurantSlug
+          restaurantSlug: item.restaurantSlug,
         })),
         timestamp: new Date().toISOString(),
       });
@@ -111,7 +122,7 @@ export const OrderConfirmationView = ({
             (sum, item) => sum + item.quantity,
             0
           );
-          
+
           let baseTime = Math.max(10, totalQuantity * 3);
           if (fastPass) {
             baseTime = Math.ceil(baseTime * 0.6);
@@ -160,9 +171,7 @@ export const OrderConfirmationView = ({
           <DialogTitle className="text-xl font-bold text-green-600">
             Pedido Confirmado!
           </DialogTitle>
-          <p className="text-sm text-muted-foreground">
-            #{orderId}
-          </p>
+          <p className="text-sm text-muted-foreground">#{orderId}</p>
         </DialogHeader>
 
         <div className="space-y-4">
@@ -180,69 +189,91 @@ export const OrderConfirmationView = ({
             </div>
           )}
 
-          {/* Tempo estimado */}
-          <div className="text-center bg-blue-50 rounded-lg p-4">
-            <div className="text-2xl font-bold text-blue-900">
-              {maxEstimatedTime} min
-            </div>
-            <div className="text-sm text-blue-700">
-              Tempo estimado para retirada
-            </div>
-            {fastPass && (
-              <div className="text-xs text-blue-600 mt-1">
-                ⚡ Fast Pass ativo
+          {/* Tempo estimado ou agendamento */}
+          {scheduledTime ? (
+            <div className="text-center bg-muted/30 rounded-lg p-4">
+              <div className="text-2xl font-bold text-foreground">
+                {scheduledTime}
               </div>
-            )}
-          </div>
+              <div className="text-sm text-muted-foreground">
+                Horário agendado para retirada
+              </div>
+            </div>
+          ) : (
+            <div className="text-center bg-muted/30 rounded-lg p-4">
+              <div className="text-2xl font-bold text-foreground">
+                {maxEstimatedTime} min
+              </div>
+              <div className="text-sm text-muted-foreground">
+                Tempo estimado para retirada
+              </div>
+              {fastPass && (
+                <div className="text-xs text-muted-foreground mt-1">
+                  Fastp ass ativo
+                </div>
+              )}
+            </div>
+          )}
 
           {/* Itens por restaurante */}
           <div className="space-y-4">
-            {Object.entries(groupedItems).map(([restaurantSlug, restaurantItems]) => {
-              const { totalItems, totalPrice: restaurantTotal } = getRestaurantStats(restaurantItems);
-              const timer = restaurantTimers.find(t => t.restaurantSlug === restaurantSlug);
+            {Object.entries(groupedItems).map(
+              ([restaurantSlug, restaurantItems]) => {
+                const { totalItems, totalPrice: restaurantTotal } =
+                  getRestaurantStats(restaurantItems);
+                const timer = restaurantTimers.find(
+                  (t) => t.restaurantSlug === restaurantSlug
+                );
 
-              return (
-                <div key={restaurantSlug} className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <h3 className="font-bold text-base uppercase tracking-wide">
-                        {formatRestaurantName(restaurantSlug)}
-                      </h3>
-                      <p className="text-muted-foreground text-sm">
-                        {totalItems} {totalItems === 1 ? "item" : "itens"} - {formatPrice(restaurantTotal)}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <div className="flex items-center gap-1">
-                        {timer?.status === "preparing" ? (
-                          <Clock className="h-4 w-4 text-orange-500" />
-                        ) : (
-                          <CheckCircle2 className="h-4 w-4 text-green-500" />
-                        )}
-                        <span className="text-sm font-medium">
-                          {timer ? formatTime(timer.remainingTime) : ""}
-                        </span>
+                return (
+                  <div key={restaurantSlug} className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <div>
+                        <h3 className="font-bold text-base uppercase tracking-wide">
+                          {formatRestaurantName(restaurantSlug)}
+                        </h3>
+                        <p className="text-muted-foreground text-sm">
+                          {totalItems} {totalItems === 1 ? "item" : "itens"} -{" "}
+                          {formatPrice(restaurantTotal)}
+                        </p>
                       </div>
+                      {!scheduledTime && (
+                        <div className="text-right">
+                          <div className="flex items-center gap-1">
+                            {timer?.status === "preparing" ? (
+                              <Clock className="h-4 w-4 text-orange-500" />
+                            ) : (
+                              <CheckCircle2 className="h-4 w-4 text-green-500" />
+                            )}
+                            <span className="text-sm font-medium">
+                              {timer ? formatTime(timer.remainingTime) : ""}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  <div className="space-y-2">
-                    {restaurantItems.map((item) => (
-                      <div key={item.id} className="flex justify-between items-center text-sm">
-                        <div className="flex-1">
-                          <span className="text-muted-foreground">
-                            {item.quantity}x {item.name}
+                    <div className="space-y-2">
+                      {restaurantItems.map((item) => (
+                        <div
+                          key={item.id}
+                          className="flex justify-between items-center text-sm"
+                        >
+                          <div className="flex-1">
+                            <span className="text-muted-foreground">
+                              {item.quantity}x {item.name}
+                            </span>
+                          </div>
+                          <span className="font-medium">
+                            {formatPrice(item.price * item.quantity)}
                           </span>
                         </div>
-                        <span className="font-medium">
-                          {formatPrice(item.price * item.quantity)}
-                        </span>
-                      </div>
-                    ))}
+                      ))}
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              }
+            )}
           </div>
 
           {/* Total */}
