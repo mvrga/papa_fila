@@ -1,0 +1,1 @@
+export { ListRestaurantsCardView, default as ListRestaurantsCardViewDefault } from "./list-restaurants-card.view";

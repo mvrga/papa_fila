@@ -1,0 +1,1 @@
+export { default as CardRestaurantView, CardRestaurantSkeleton } from "./card-restaurant.view";

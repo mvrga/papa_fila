@@ -1,6 +1,11 @@
-import { Input } from "@/components/ui/input";
+"use client";
+
+import { FilterKeywordView } from "@/components/filter-keyword";
+import { useState } from "react";
 
 export const HeroView = () => {
+  const [palavraChave, setPalavraChave] = useState<string | null>(null);
+
   return (
     <section
       className="relative h-[40vh] lg:h-[70vh] bg-black bg-cover bg-center bg-no-repeat flex items-center justify-center"
@@ -10,15 +15,18 @@ export const HeroView = () => {
       }}
     >
       <div className="absolute inset-0 bg-black/50"></div>
-      <div className="relative z-10 text-center space-y-6 px-4 max-w-2xl">
+
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center w-full h-full text-center space-y-6 px-4 max-w-2xl mx-auto">
         <h1 className="text-4xl lg:text-6xl font-bold text-white">
-          Pólen unissuam
+          Pólen unisuam
         </h1>
-        <div className="max-w-md mx-auto">
-          <Input
-            type="text"
-            placeholder="Enter your search..."
-            className="bg-white text-white placeholder:text-white/70 focus:bg-white/20"
+        <div className="w-full max-w-lg">
+          <FilterKeywordView
+            variant="primary"
+            palavraChave={palavraChave}
+            setPalavraChave={setPalavraChave}
+            placeholder="Pesquisar restaurantes..."
+            className="h-12"
           />
         </div>
       </div>

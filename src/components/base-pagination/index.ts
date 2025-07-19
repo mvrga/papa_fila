@@ -1,0 +1,1 @@
+export { BasePaginationView } from "./base-pagination.view";

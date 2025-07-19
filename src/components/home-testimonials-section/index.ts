@@ -1,0 +1,1 @@
+export { default as HomeTestimonialsSection } from "./home-testimonials-section.view";

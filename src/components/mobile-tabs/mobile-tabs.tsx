@@ -60,7 +60,7 @@ export const MobileTabs = () => {
   const [activeTab, setActiveTab] = useState("home");
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border lg:hidden">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-border lg:hidden z-50">
       <div className="flex">
         {tabs.map((tab) => (
           <button
