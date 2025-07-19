@@ -1,0 +1,1 @@
+export { default as RestaurantDiscountView } from "./restaurant-discount.view";
