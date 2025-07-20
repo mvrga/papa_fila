@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 export const HeaderView = () => {
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+      <header className="hidden lg:fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
         <div className="container mx-auto">
           <nav className="flex items-center justify-between p-4">
             <div className="flex items-center gap-2">
